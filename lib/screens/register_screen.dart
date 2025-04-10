@@ -23,18 +23,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
   
   // List of avatar URLs using different styles
   final List<String> _avatars = [
-    'https://api.dicebear.com/7.x/bottts/svg?seed=Felix',
-    'https://api.dicebear.com/7.x/adventurer/svg?seed=Aneka',
-    'https://api.dicebear.com/7.x/big-ears/svg?seed=Max',
-    'https://api.dicebear.com/7.x/micah/svg?seed=Lucy',
-    'https://api.dicebear.com/7.x/personas/svg?seed=John',
-    'https://api.dicebear.com/7.x/pixel-art/svg?seed=Sarah',
-    'https://api.dicebear.com/7.x/lorelei/svg?seed=Mike',
-    'https://api.dicebear.com/7.x/notionists/svg?seed=Jane',
-    'https://api.dicebear.com/7.x/thumbs/svg?seed=Alex',
-    'https://api.dicebear.com/7.x/fun-emoji/svg?seed=Emma',
-    'https://api.dicebear.com/7.x/avataaars/svg?seed=Tom',
-    'https://api.dicebear.com/7.x/big-smile/svg?seed=Lisa',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Digital&backgroundColor=0ea5e9&hair=short&accessories=round&clothing=shirt&clothingColor=0f172a',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Tech&backgroundColor=6366f1&hair=short&accessories=round&clothing=shirt&clothingColor=1e293b',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Modern&backgroundColor=8b5cf6&hair=short&accessories=round&clothing=shirt&clothingColor=0f172a',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Innovation&backgroundColor=ec4899&hair=short&accessories=round&clothing=shirt&clothingColor=1e293b',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Future&backgroundColor=14b8a6&hair=short&accessories=round&clothing=shirt&clothingColor=0f172a',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Smart&backgroundColor=f59e0b&hair=short&accessories=round&clothing=shirt&clothingColor=1e293b',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Digital&backgroundColor=0ea5e9&hair=short&accessories=round&clothing=shirt&clothingColor=0f172a&gender=female',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Tech&backgroundColor=6366f1&hair=short&accessories=round&clothing=shirt&clothingColor=1e293b&gender=female',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Modern&backgroundColor=8b5cf6&hair=short&accessories=round&clothing=shirt&clothingColor=0f172a&gender=female',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Innovation&backgroundColor=ec4899&hair=short&accessories=round&clothing=shirt&clothingColor=1e293b&gender=female',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Future&backgroundColor=14b8a6&hair=short&accessories=round&clothing=shirt&clothingColor=0f172a&gender=female',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Smart&backgroundColor=f59e0b&hair=short&accessories=round&clothing=shirt&clothingColor=1e293b&gender=female',
   ];
 
   @override

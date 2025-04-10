@@ -26,18 +26,18 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
   // List of avatar URLs using different styles
   final List<String> _avatars = [
-    'https://api.dicebear.com/7.x/bottts/svg?seed=Felix',
-    'https://api.dicebear.com/7.x/adventurer/svg?seed=Aneka',
-    'https://api.dicebear.com/7.x/big-ears/svg?seed=Max',
-    'https://api.dicebear.com/7.x/micah/svg?seed=Lucy',
-    'https://api.dicebear.com/7.x/personas/svg?seed=John',
-    'https://api.dicebear.com/7.x/pixel-art/svg?seed=Sarah',
-    'https://api.dicebear.com/7.x/lorelei/svg?seed=Mike',
-    'https://api.dicebear.com/7.x/notionists/svg?seed=Jane',
-    'https://api.dicebear.com/7.x/thumbs/svg?seed=Alex',
-    'https://api.dicebear.com/7.x/fun-emoji/svg?seed=Emma',
-    'https://api.dicebear.com/7.x/avataaars/svg?seed=Tom',
-    'https://api.dicebear.com/7.x/big-smile/svg?seed=Lisa',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Professional&backgroundColor=b6e3f4',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Business&backgroundColor=c0aede',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Executive&backgroundColor=d1f4d9',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Corporate&backgroundColor=ffdfbf',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Manager&backgroundColor=ffd5dc',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Leader&backgroundColor=d1f4d9',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Director&backgroundColor=b6e3f4',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Officer&backgroundColor=c0aede',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Consultant&backgroundColor=ffdfbf',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Specialist&backgroundColor=ffd5dc',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Expert&backgroundColor=d1f4d9',
+    'https://api.dicebear.com/7.x/personas/svg?seed=Analyst&backgroundColor=b6e3f4',
   ];
 
   @override
