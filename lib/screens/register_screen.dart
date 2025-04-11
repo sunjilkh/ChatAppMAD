@@ -23,18 +23,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   
   // List of avatar URLs using different styles
   final List<String> _avatars = [
-    'https://api.dicebear.com/7.x/personas/svg?seed=Digital&backgroundColor=0ea5e9&hair=short&accessories=round&clothing=shirt&clothingColor=0f172a',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Tech&backgroundColor=6366f1&hair=short&accessories=round&clothing=shirt&clothingColor=1e293b',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Modern&backgroundColor=8b5cf6&hair=short&accessories=round&clothing=shirt&clothingColor=0f172a',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Innovation&backgroundColor=ec4899&hair=short&accessories=round&clothing=shirt&clothingColor=1e293b',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Future&backgroundColor=14b8a6&hair=short&accessories=round&clothing=shirt&clothingColor=0f172a',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Smart&backgroundColor=f59e0b&hair=short&accessories=round&clothing=shirt&clothingColor=1e293b',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Digital&backgroundColor=0ea5e9&hair=short&accessories=round&clothing=shirt&clothingColor=0f172a&gender=female',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Tech&backgroundColor=6366f1&hair=short&accessories=round&clothing=shirt&clothingColor=1e293b&gender=female',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Modern&backgroundColor=8b5cf6&hair=short&accessories=round&clothing=shirt&clothingColor=0f172a&gender=female',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Innovation&backgroundColor=ec4899&hair=short&accessories=round&clothing=shirt&clothingColor=1e293b&gender=female',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Future&backgroundColor=14b8a6&hair=short&accessories=round&clothing=shirt&clothingColor=0f172a&gender=female',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Smart&backgroundColor=f59e0b&hair=short&accessories=round&clothing=shirt&clothingColor=1e293b&gender=female',
+    'https://robohash.org/user1?set=set4&size=200x200&bgset=bg1',
+    'https://robohash.org/user2?set=set4&size=200x200&bgset=bg2',
+    'https://robohash.org/user3?set=set4&size=200x200&bgset=bg1',
+    'https://robohash.org/user4?set=set4&size=200x200&bgset=bg2',
+    'https://robohash.org/user5?set=set4&size=200x200&bgset=bg1',
+    'https://robohash.org/user6?set=set4&size=200x200&bgset=bg2',
+    'https://robohash.org/user7?set=set4&size=200x200&bgset=bg1',
+    'https://robohash.org/user8?set=set4&size=200x200&bgset=bg2',
+    'https://robohash.org/user9?set=set4&size=200x200&bgset=bg1',
+    'https://robohash.org/user10?set=set4&size=200x200&bgset=bg2',
   ];
 
   @override
@@ -166,11 +164,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
           child: ClipOval(
-            child: SvgPicture.network(
+            child: Image.network(
               _selectedAvatar!,
               height: 100,
               width: 100,
-              placeholderBuilder: (context) => const CircularProgressIndicator(),
+              fit: BoxFit.cover,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return const CircularProgressIndicator();
+              },
             ),
           ),
         ),
@@ -200,12 +202,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   child: ClipOval(
-                    child: SvgPicture.network(
+                    child: Image.network(
                       avatar,
                       height: 50,
                       width: 50,
-                      placeholderBuilder: (context) =>
-                          const CircularProgressIndicator(),
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return const CircularProgressIndicator();
+                      },
                     ),
                   ),
                 ),

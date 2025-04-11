@@ -26,18 +26,16 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
   // List of avatar URLs using different styles
   final List<String> _avatars = [
-    'https://api.dicebear.com/7.x/personas/svg?seed=Professional&backgroundColor=b6e3f4',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Business&backgroundColor=c0aede',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Executive&backgroundColor=d1f4d9',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Corporate&backgroundColor=ffdfbf',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Manager&backgroundColor=ffd5dc',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Leader&backgroundColor=d1f4d9',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Director&backgroundColor=b6e3f4',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Officer&backgroundColor=c0aede',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Consultant&backgroundColor=ffdfbf',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Specialist&backgroundColor=ffd5dc',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Expert&backgroundColor=d1f4d9',
-    'https://api.dicebear.com/7.x/personas/svg?seed=Analyst&backgroundColor=b6e3f4',
+    'https://robohash.org/user1?set=set4&size=200x200&bgset=bg1',
+    'https://robohash.org/user2?set=set4&size=200x200&bgset=bg2',
+    'https://robohash.org/user3?set=set4&size=200x200&bgset=bg1',
+    'https://robohash.org/user4?set=set4&size=200x200&bgset=bg2',
+    'https://robohash.org/user5?set=set4&size=200x200&bgset=bg1',
+    'https://robohash.org/user6?set=set4&size=200x200&bgset=bg2',
+    'https://robohash.org/user7?set=set4&size=200x200&bgset=bg1',
+    'https://robohash.org/user8?set=set4&size=200x200&bgset=bg2',
+    'https://robohash.org/user9?set=set4&size=200x200&bgset=bg1',
+    'https://robohash.org/user10?set=set4&size=200x200&bgset=bg2',
   ];
 
   @override
@@ -119,15 +117,22 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
           radius: 50,
           backgroundColor: Colors.grey[200],
           child: _selectedAvatar != null
-              ? SvgPicture.network(
-                  _selectedAvatar!,
-                  width: 80,
-                  height: 80,
+              ? ClipOval(
+                  child: Image.network(
+                    _selectedAvatar!,
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return const CircularProgressIndicator();
+                    },
+                  ),
                 )
               : const Icon(Icons.person, size: 50),
         ),
         const SizedBox(height: 16),
-        Container(
+        SizedBox(
           height: 100,
           child: GridView.builder(
             scrollDirection: Axis.horizontal,
@@ -153,10 +158,17 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(4),
-                    child: SvgPicture.network(
-                      avatarUrl,
-                      width: 60,
-                      height: 60,
+                    child: ClipOval(
+                      child: Image.network(
+                        avatarUrl,
+                        width: 60,
+                        height: 60,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const CircularProgressIndicator();
+                        },
+                      ),
                     ),
                   ),
                 ),

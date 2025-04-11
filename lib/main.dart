@@ -71,9 +71,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final UserService _userService = UserService();
   final TextEditingController _searchController = TextEditingController();
-  List<UserProfile> _searchResults = [];
-  bool _isSearching = false;
-  Map<String, int> _unreadCounts = {};
+  final List<UserProfile> _searchResults = [];
+  final bool _isSearching = false;
+  final Map<String, int> _unreadCounts = {};
 
   @override
   void initState() {
@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
       trailing: unreadCount > 0
           ? Container(
               padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.blue,
                 shape: BoxShape.circle,
               ),
