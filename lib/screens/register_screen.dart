@@ -23,16 +23,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
   
   // List of avatar URLs using different styles
   final List<String> _avatars = [
-    'https://robohash.org/user1?set=set4&size=200x200&bgset=bg1',
-    'https://robohash.org/user2?set=set4&size=200x200&bgset=bg2',
-    'https://robohash.org/user3?set=set4&size=200x200&bgset=bg1',
-    'https://robohash.org/user4?set=set4&size=200x200&bgset=bg2',
-    'https://robohash.org/user5?set=set4&size=200x200&bgset=bg1',
-    'https://robohash.org/user6?set=set4&size=200x200&bgset=bg2',
-    'https://robohash.org/user7?set=set4&size=200x200&bgset=bg1',
-    'https://robohash.org/user8?set=set4&size=200x200&bgset=bg2',
-    'https://robohash.org/user9?set=set4&size=200x200&bgset=bg1',
-    'https://robohash.org/user10?set=set4&size=200x200&bgset=bg2',
+    'https://api.dicebear.com/7.x/bottts/svg?seed=Felix',
+    'https://api.dicebear.com/7.x/adventurer/svg?seed=Aneka',
+    'https://api.dicebear.com/7.x/big-ears/svg?seed=Max',
+    'https://api.dicebear.com/7.x/micah/svg?seed=Lucy',
+    'https://api.dicebear.com/7.x/personas/svg?seed=John',
+    'https://api.dicebear.com/7.x/pixel-art/svg?seed=Sarah',
+    'https://api.dicebear.com/7.x/lorelei/svg?seed=Mike',
+    'https://api.dicebear.com/7.x/notionists/svg?seed=Jane',
+    'https://api.dicebear.com/7.x/thumbs/svg?seed=Alex',
+    'https://api.dicebear.com/7.x/fun-emoji/svg?seed=Emma',
+    'https://api.dicebear.com/7.x/avataaars/svg?seed=Tom',
+    'https://api.dicebear.com/7.x/big-smile/svg?seed=Lisa',
   ];
 
   @override
@@ -164,15 +166,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
           child: ClipOval(
-            child: Image.network(
+            child: SvgPicture.network(
               _selectedAvatar!,
               height: 100,
               width: 100,
-              fit: BoxFit.cover,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return const CircularProgressIndicator();
-              },
+              placeholderBuilder: (context) => const CircularProgressIndicator(),
             ),
           ),
         ),
@@ -202,15 +200,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   child: ClipOval(
-                    child: Image.network(
+                    child: SvgPicture.network(
                       avatar,
                       height: 50,
                       width: 50,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return const CircularProgressIndicator();
-                      },
+                      placeholderBuilder: (context) =>
+                          const CircularProgressIndicator(),
                     ),
                   ),
                 ),

@@ -9,6 +9,7 @@ import 'screens/profile_settings_screen.dart';
 import 'models/user_profile.dart';
 import 'models/message.dart';
 import 'services/user_service.dart';
+import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
@@ -33,7 +34,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Chat App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -71,9 +71,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final UserService _userService = UserService();
   final TextEditingController _searchController = TextEditingController();
-  final List<UserProfile> _searchResults = [];
-  final bool _isSearching = false;
-  final Map<String, int> _unreadCounts = {};
+  List<UserProfile> _searchResults = [];
+  bool _isSearching = false;
+  Map<String, int> _unreadCounts = {};
 
   @override
   void initState() {
@@ -119,27 +119,48 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildAvatar(String? photoUrl, String username) {
-    if (photoUrl == null) {
+    if (photoUrl == null || photoUrl.isEmpty) {
       return CircleAvatar(
-        child: Text(username[0].toUpperCase()),
+        backgroundColor: Colors.blue,
+        child: Text(
+          username[0].toUpperCase(),
+          style: const TextStyle(color: Colors.white),
+        ),
       );
     }
 
-    return CircleAvatar(
-      child: ClipOval(
-        child: SvgPicture.network(
-          photoUrl,
-          width: 40,
-          height: 40,
-          placeholderBuilder: (context) => const CircularProgressIndicator(),
+    // For SVG avatars from DiceBear
+    if (photoUrl.contains('api.dicebear.com')) {
+      return CircleAvatar(
+        backgroundColor: Colors.grey[200],
+        child: ClipOval(
+          child: SvgPicture.network(
+            photoUrl,
+            width: 40,
+            height: 40,
+            placeholderBuilder: (context) => Text(
+              username[0].toUpperCase(),
+              style: TextStyle(color: Colors.grey[600]),
+            ),
+          ),
         ),
+      );
+    }
+
+    // For regular image URLs
+    return CircleAvatar(
+      backgroundImage: NetworkImage(photoUrl),
+      onBackgroundImageError: (exception, stackTrace) {},
+      child: Text(
+        username[0].toUpperCase(),
+        style: const TextStyle(color: Colors.white),
       ),
     );
   }
 
   Widget _buildUserListItem(UserProfile user) {
     final unreadCount = _unreadCounts[user.uid] ?? 0;
-
+    
     return ListTile(
       leading: _buildAvatar(user.photoUrl, user.username),
       title: Text(user.username),
@@ -147,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
       trailing: unreadCount > 0
           ? Container(
               padding: const EdgeInsets.all(6),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.blue,
                 shape: BoxShape.circle,
               ),

@@ -84,7 +84,7 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
       return Center(
         child: Text(
           isChatHistory ? 'No chat history' : 'No users found',
-          style: const TextStyle(color: Colors.grey),
+          style: TextStyle(color: Colors.grey),
         ),
       );
     }

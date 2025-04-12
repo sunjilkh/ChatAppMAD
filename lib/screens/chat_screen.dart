@@ -309,7 +309,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget _buildDot(int index) {
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0.0, end: 1.0),
-      duration: const Duration(milliseconds: 400),
+      duration: Duration(milliseconds: 400),
       curve: Curves.easeInOut,
       builder: (context, value, child) {
         return Container(
