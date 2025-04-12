@@ -9,7 +9,6 @@ import 'screens/profile_settings_screen.dart';
 import 'models/user_profile.dart';
 import 'models/message.dart';
 import 'services/user_service.dart';
-import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
