@@ -25,96 +25,116 @@ class _ChatScreenState extends State<ChatScreen> {
   bool _isOtherUserTyping = false;
   late String _chatId;
   Timer? _typingTimer;
+  StreamSubscription? _messagesSubscription;
+  StreamSubscription? _typingSubscription;
 
   @override
   void initState() {
     super.initState();
+    _initializeChat();
+  }
+
+  Future<void> _initializeChat() async {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       _chatId = _getChatId(currentUser.uid, widget.otherUser.uid);
+      await _setupChatDocument();
       _loadMessages();
       _markMessagesAsSeen();
       _listenToTypingStatus();
+    } else {
+      if (mounted) {
+        Navigator.of(context).pushReplacementNamed('/login');
+      }
+    }
+  }
+
+  Future<void> _setupChatDocument() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      final chatDoc = await FirebaseFirestore.instance
+          .collection('chats')
+          .doc(_chatId)
+          .get();
+
+      if (!chatDoc.exists) {
+        await FirebaseFirestore.instance
+            .collection('chats')
+            .doc(_chatId)
+            .set({
+          'participants': [currentUser.uid, widget.otherUser.uid],
+          'lastMessage': null,
+          'lastMessageTime': null,
+          'isTyping': false,
+          'typingUserId': null,
+        });
+      }
     }
   }
 
   void _listenToTypingStatus() {
-    FirebaseFirestore.instance
-        .collection('chats')
-        .doc(_chatId)
-        .snapshots()
-        .listen((snapshot) {
-      if (snapshot.exists) {
-        final data = snapshot.data() as Map<String, dynamic>;
-        final isTyping = data['isTyping'] ?? false;
-        final typingUserId = data['typingUserId'] as String?;
-        
-        if (mounted) {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      _typingSubscription = FirebaseFirestore.instance
+          .collection('chats')
+          .doc(_chatId)
+          .snapshots()
+          .listen((snapshot) {
+        if (snapshot.exists && mounted) {
+          final data = snapshot.data() as Map<String, dynamic>;
+          final isTyping = data['isTyping'] ?? false;
+          final typingUserId = data['typingUserId'] as String?;
+          
           setState(() {
             _isOtherUserTyping = isTyping && typingUserId == widget.otherUser.uid;
           });
         }
-      }
-    });
-  }
-
-  Future<void> _updateTypingStatus(bool isTyping) async {
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      await FirebaseFirestore.instance
-          .collection('chats')
-          .doc(_chatId)
-          .set({
-        'isTyping': isTyping,
-        'typingUserId': isTyping ? currentUser.uid : null,
-      }, SetOptions(merge: true));
+      });
     }
   }
 
-  void _onTextChanged(String text) {
-    // Cancel previous timer
-    _typingTimer?.cancel();
-    
-    // Update typing status to true
-    _updateTypingStatus(true);
-    
-    // Set a timer to update typing status to false after 2 seconds of no typing
-    _typingTimer = Timer(const Duration(seconds: 2), () {
-      _updateTypingStatus(false);
-    });
-  }
-
   Future<void> _loadMessages() async {
+    if (!mounted) return;
+    
     setState(() => _isLoading = true);
     try {
       final currentUser = FirebaseAuth.instance.currentUser;
       if (currentUser != null) {
+        // Cancel existing subscription if any
+        await _messagesSubscription?.cancel();
+        
         // Listen to messages in real-time
-        FirebaseFirestore.instance
+        _messagesSubscription = FirebaseFirestore.instance
             .collection('chats')
             .doc(_chatId)
             .collection('messages')
             .orderBy('timestamp', descending: true)
             .snapshots()
             .listen((snapshot) {
-          setState(() {
-            _messages = snapshot.docs
-                .map((doc) => Message.fromMap(doc.data()))
-                .toList();
-          });
-          // Mark new messages as seen
-          _markMessagesAsSeen();
+          if (mounted) {
+            setState(() {
+              _messages = snapshot.docs
+                  .map((doc) => Message.fromMap(doc.data()))
+                  .toList();
+            });
+            // Mark new messages as seen
+            _markMessagesAsSeen();
+          }
         });
 
         // Add user to chat history
         await _userService.addUserToChatList(currentUser.uid, widget.otherUser.uid);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load messages: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to load messages: $e')),
+        );
+      }
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
@@ -398,11 +418,39 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+  void _onTextChanged(String text) {
+    // Cancel previous timer
+    _typingTimer?.cancel();
+    
+    // Update typing status to true
+    _updateTypingStatus(true);
+    
+    // Set a timer to update typing status to false after 2 seconds of no typing
+    _typingTimer = Timer(const Duration(seconds: 2), () {
+      _updateTypingStatus(false);
+    });
+  }
+
+  Future<void> _updateTypingStatus(bool isTyping) async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      await FirebaseFirestore.instance
+          .collection('chats')
+          .doc(_chatId)
+          .set({
+        'isTyping': isTyping,
+        'typingUserId': isTyping ? currentUser.uid : null,
+      }, SetOptions(merge: true));
+    }
+  }
+
   @override
   void dispose() {
     _messageController.dispose();
     _scrollController.dispose();
     _typingTimer?.cancel();
+    _messagesSubscription?.cancel();
+    _typingSubscription?.cancel();
     _updateTypingStatus(false);
     super.dispose();
   }

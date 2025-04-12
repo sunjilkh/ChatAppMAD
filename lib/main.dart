@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'dart:async';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/chat_screen.dart';
@@ -16,7 +15,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyBA8Wa7Dv-fKphywzczpjRK1g6bIswxzqo",
+      authDomain: "taskmanager-6f4bb.firebaseapp.com",
+      projectId: "taskmanager-6f4bb",
+      storageBucket: "taskmanager-6f4bb.firebasestorage.app",
+      messagingSenderId: "960213496519",
+      appId: "1:960213496519:web:5d9efb6e2c46e3fd4184e2",
+      measurementId: "G-PKS3ZWGJY4",
+    ),
   );
   runApp(const MyApp());
 }
@@ -67,7 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
   List<UserProfile> _searchResults = [];
   bool _isSearching = false;
   Map<String, int> _unreadCounts = {};
-  List<StreamSubscription> _subscriptions = [];
 
   @override
   void initState() {
@@ -75,20 +81,10 @@ class _HomeScreenState extends State<HomeScreen> {
     _listenToUnreadMessages();
   }
 
-  @override
-  void dispose() {
-    // Cancel all subscriptions when the widget is disposed
-    for (var subscription in _subscriptions) {
-      subscription.cancel();
-    }
-    _searchController.dispose();
-    super.dispose();
-  }
-
   void _listenToUnreadMessages() {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
-      final chatSubscription = FirebaseFirestore.instance
+      FirebaseFirestore.instance
           .collection('chats')
           .where('participants', arrayContains: currentUser.uid)
           .snapshots()
@@ -102,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
           );
 
           if (otherUserId.isNotEmpty) {
-            final messageSubscription = FirebaseFirestore.instance
+            FirebaseFirestore.instance
                 .collection('chats')
                 .doc(chatId)
                 .collection('messages')
@@ -116,24 +112,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               }
             });
-            _subscriptions.add(messageSubscription);
           }
         }
       });
-      _subscriptions.add(chatSubscription);
-    }
-  }
-
-  Future<void> _signOut() async {
-    // Cancel all subscriptions before signing out
-    for (var subscription in _subscriptions) {
-      subscription.cancel();
-    }
-    _subscriptions.clear();
-    
-    await FirebaseAuth.instance.signOut();
-    if (mounted) {
-      Navigator.pushReplacementNamed(context, '/login');
     }
   }
 
@@ -230,7 +211,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: _signOut,
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              if (context.mounted) {
+                Navigator.pushReplacementNamed(context, '/login');
+              }
+            },
           ),
         ],
       ),
