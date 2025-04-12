@@ -31,12 +31,12 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png" />
 
-  <title>chat_app</title>
+  <title>Chat App</title>
   <link rel="manifest" href="manifest.json">
 
   <script>
     // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = null;
+    var serviceWorkerVersion = '{{flutter_service_worker_version}}';
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
@@ -49,8 +49,14 @@
 
   <script>
     const firebaseConfig = {
+      apiKey: "AIzaSyBA8Wa7Dv-fKphywzczpjRK1g6bIswxzqo",
+      authDomain: "taskmanager-6f4bb.firebaseapp.com",
+      projectId: "taskmanager-6f4bb",
+      storageBucket: "taskmanager-6f4bb.firebasestorage.app",
+      messagingSenderId: "960213496519",
+      appId: "1:960213496519:web:5d9efb6e2c46e3fd4184e2",
+      measurementId: "G-PKS3ZWGJY4"
     };
-
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
   </script>
@@ -60,14 +66,9 @@
   <script>
     window.addEventListener('load', function (ev) {
       // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
+      _flutter.loader.load({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function (engineInitializer) {
-          engineInitializer.initializeEngine().then(function (appRunner) {
-            appRunner.runApp();
-          });
         }
       });
     });
