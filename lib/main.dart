@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Chat App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -123,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Text(username[0].toUpperCase()),
       );
     }
-    
+
     return CircleAvatar(
       child: ClipOval(
         child: SvgPicture.network(
@@ -138,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildUserListItem(UserProfile user) {
     final unreadCount = _unreadCounts[user.uid] ?? 0;
-    
+
     return ListTile(
       leading: _buildAvatar(user.photoUrl, user.username),
       title: Text(user.username),
