@@ -23,18 +23,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
   
   // List of avatar URLs using different styles
   final List<String> _avatars = [
-    'https://api.dicebear.com/7.x/bottts/png?seed=Felix',
-    'https://api.dicebear.com/7.x/adventurer/png?seed=Aneka',
-    'https://api.dicebear.com/7.x/big-ears/png?seed=Max',
-    'https://api.dicebear.com/7.x/micah/png?seed=Lucy',
-    'https://api.dicebear.com/7.x/personas/png?seed=John',
-    'https://api.dicebear.com/7.x/pixel-art/png?seed=Sarah',
-    'https://api.dicebear.com/7.x/lorelei/png?seed=Mike',
-    'https://api.dicebear.com/7.x/notionists/png?seed=Jane',
-    'https://api.dicebear.com/7.x/thumbs/png?seed=Alex',
-    'https://api.dicebear.com/7.x/fun-emoji/png?seed=Emma',
-    'https://api.dicebear.com/7.x/avataaars/png?seed=Tom',
-    'https://api.dicebear.com/7.x/big-smile/png?seed=Lisa',
+    'https://api.dicebear.com/7.x/bottts/svg?seed=Felix',
+    'https://api.dicebear.com/7.x/adventurer/svg?seed=Aneka',
+    'https://api.dicebear.com/7.x/big-ears/svg?seed=Max',
+    'https://api.dicebear.com/7.x/micah/svg?seed=Lucy',
+    'https://api.dicebear.com/7.x/personas/svg?seed=John',
+    'https://api.dicebear.com/7.x/pixel-art/svg?seed=Sarah',
+    'https://api.dicebear.com/7.x/lorelei/svg?seed=Mike',
+    'https://api.dicebear.com/7.x/notionists/svg?seed=Jane',
+    'https://api.dicebear.com/7.x/thumbs/svg?seed=Alex',
+    'https://api.dicebear.com/7.x/fun-emoji/svg?seed=Emma',
+    'https://api.dicebear.com/7.x/avataaars/svg?seed=Tom',
+    'https://api.dicebear.com/7.x/big-smile/svg?seed=Lisa',
   ];
 
   @override
